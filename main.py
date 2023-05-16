@@ -6,6 +6,9 @@ import preprocessor
 
 st.sidebar.title('Whatsapp Chat Analyser')
 
+
+
+
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
@@ -61,8 +64,17 @@ if uploaded_file is not None:
     ax.imshow(df_wc)
     st.pyplot(fig)
 
+#     most common df
 
+    most_common_df = helper.most_common_words(selected_user, df)
 
+    fig, ax = plt.subplots()
+
+    ax.barh(most_common_df[0], most_common_df[1])
+    plt.xticks(rotation='vertical')
+
+    st.dataframe(most_common_df)
+    st.pyplot(fig)
 
 
 
