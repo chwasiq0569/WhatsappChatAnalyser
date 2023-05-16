@@ -86,6 +86,7 @@ def most_common_words(selected_user, df):
     most_common_df = pd.DataFrame(Counter(words).most_common(20))
     return most_common_df
 
+
 def monthly_timeline(selected_user, df):
     if selected_user != "Overall":
         df = df[df['user'] == selected_user]
@@ -99,6 +100,7 @@ def monthly_timeline(selected_user, df):
 
     return timeline
 
+
 def daily_timeline(selected_user, df):
     if selected_user != "Overall":
         df = df[df['user'] == selected_user]
@@ -106,3 +108,20 @@ def daily_timeline(selected_user, df):
     daily_timeline_data = df.groupby(['date']).count()['messages'].reset_index()
 
     return daily_timeline_data
+
+
+def week_activity_map(selected_user, df):
+    if selected_user != "Overall":
+        df = df[df['user'] == selected_user]
+
+    most_active_days = df['day_name'].value_counts()
+
+    return most_active_days
+
+def monthly_activity_map(selected_user, df):
+    if selected_user != "Overall":
+        df = df[df['user'] == selected_user]
+
+    most_active_months = df['month'].value_counts()
+
+    return most_active_months
