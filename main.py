@@ -48,6 +48,13 @@ if uploaded_file is not None:
     plt.xticks(rotation='vertical')
     st.pyplot(fig)
 
+    st.title("Daily Timeline")
+    timeline = helper.daily_timeline(selected_user, df)
+    fig, ax = plt.subplots()
+    ax.plot(timeline['date'], timeline['messages'])
+    plt.xticks(rotation='vertical')
+    st.pyplot(fig)
+
     if selected_user == 'Overall':
         x, new_df = helper.most_busy_users(df)
 
