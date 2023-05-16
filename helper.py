@@ -118,6 +118,7 @@ def week_activity_map(selected_user, df):
 
     return most_active_days
 
+
 def monthly_activity_map(selected_user, df):
     if selected_user != "Overall":
         df = df[df['user'] == selected_user]
@@ -125,3 +126,12 @@ def monthly_activity_map(selected_user, df):
     most_active_months = df['month'].value_counts()
 
     return most_active_months
+
+
+def activity_heatmap(selected_user, df):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    user_heatmap = df.pivot_table(index='day_name', columns='period', values='messages', aggfunc='count').fillna(0)
+
+    return user_heatmap

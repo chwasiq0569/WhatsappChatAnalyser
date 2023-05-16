@@ -3,6 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import helper
 import preprocessor
+import seaborn as sns
 
 st.sidebar.title('Whatsapp Chat Analyser')
 
@@ -62,7 +63,7 @@ if uploaded_file is not None:
         st.title("Daily Activity Status")
         most_active_days = helper.week_activity_map(selected_user, df)
         fig, ax = plt.subplots()
-        ax.plot(most_active_days.index, most_active_days.values)
+        ax.bar(most_active_days.index, most_active_days.values)
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
@@ -70,7 +71,7 @@ if uploaded_file is not None:
         st.title("Monthly Activity Status")
         most_active_months = helper.monthly_activity_map(selected_user, df)
         fig, ax = plt.subplots()
-        ax.plot(most_active_months.index, most_active_months.values)
+        ax.bar(most_active_months.index, most_active_months.values)
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
@@ -106,4 +107,10 @@ if uploaded_file is not None:
     plt.xticks(rotation='vertical')
 
     st.dataframe(most_common_df)
+    st.pyplot(fig)
+
+    st.title("Weekly Activity Map")
+    user_heatmap = helper.activity_heatmap(selected_user, df)
+    fig, ax = plt.subplots()
+    ax = sns.heatmap(user_heatmap)
     st.pyplot(fig)
