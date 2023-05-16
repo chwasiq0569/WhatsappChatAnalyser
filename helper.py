@@ -12,7 +12,6 @@ def fetch_stats(selected_user, df):
 
     num_media = df[df["messages"] == "<Media omitted>\n"].shape[0]
 
-
     num_messages = df.shape[0]
     total_words = []
     total_urls = []
