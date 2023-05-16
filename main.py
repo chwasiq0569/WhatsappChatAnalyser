@@ -6,16 +6,13 @@ import preprocessor
 
 st.sidebar.title('Whatsapp Chat Analyser')
 
-
-
-
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode("utf-8")
     df = preprocessor.preprocess(data)
 
-    st.dataframe(df)
+    # st.dataframe(df)
 
     user_list = df['user'].unique().tolist()
 
@@ -27,6 +24,8 @@ if uploaded_file is not None:
 
     if st.sidebar.button('Show Analysis'):
         num_messages, num_words, num_media, total_urls = helper.fetch_stats(selected_user, df)
+
+        st.title('Top Stats')
 
         col1, col2, col3, col4 = st.columns(4)
         with col1:
@@ -42,6 +41,12 @@ if uploaded_file is not None:
             st.header("Total URLs")
             st.title(total_urls)
 
+    st.title("Monthly Timeline")
+    timeline = helper.monthly_timeline(selected_user, df)
+    fig, ax = plt.subplots()
+    ax.plot(timeline['time'], timeline['messages'])
+    plt.xticks(rotation='vertical')
+    st.pyplot(fig)
 
     if selected_user == 'Overall':
         x, new_df = helper.most_busy_users(df)
@@ -64,7 +69,7 @@ if uploaded_file is not None:
     ax.imshow(df_wc)
     st.pyplot(fig)
 
-#     most common df
+    #     most common df
 
     most_common_df = helper.most_common_words(selected_user, df)
 
@@ -75,7 +80,3 @@ if uploaded_file is not None:
 
     st.dataframe(most_common_df)
     st.pyplot(fig)
-
-
-
-

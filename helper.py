@@ -85,3 +85,16 @@ def most_common_words(selected_user, df):
 
     most_common_df = pd.DataFrame(Counter(words).most_common(20))
     return most_common_df
+
+def monthly_timeline(selected_user, df):
+    if selected_user != "Overall":
+        df = df[df['user'] == selected_user]
+
+    timeline = df.groupby(['year', 'month_num', 'month']).count()['messages'].reset_index()
+    time_arr = []
+    for i in range(timeline.shape[0]):
+        time_arr.append(timeline['month'][i] + " - " + str(timeline['year'][i]))
+
+    timeline['time'] = time_arr
+
+    return timeline
