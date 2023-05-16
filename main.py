@@ -16,7 +16,7 @@ if uploaded_file is not None:
 
     user_list = df['user'].unique().tolist()
 
-    user_list.remove("group_notification")
+    # user_list.remove("group_notification\n")
     user_list.sort()
     user_list.insert(0, "Overall")
 
@@ -41,24 +41,29 @@ if uploaded_file is not None:
 
 
     if selected_user == 'Overall':
-
-        most_active_users = df['user'].value_counts().head()
-        name = most_active_users.index
-        count = most_active_users.values
+        x, new_df = helper.most_busy_users(df)
 
         fig, ax = plt.subplots()
-
-        ax.bar(name, count)
+        ax.bar(x.index, x.values)
         plt.xticks(rotation='vertical')
 
+        st.header("Most Busy Users")
         col1, col2 = st.columns(2)
 
         with col1:
-            st.header("Most Active Users")
             st.pyplot(fig)
 
         with col2:
-            st.header("Most Busy Users")
-            st.dataframe(round(df['user'].value_counts() / df.shape[0] * 100, 2).reset_index().rename(columns={"index": "user", "user": "percent"}))
+            st.dataframe(new_df)
+
+    df_wc = helper.create_wordcloud(selected_user, df)
+    fig, ax = plt.subplots()
+    ax.imshow(df_wc)
+    st.pyplot(fig)
+
+
+
+
+
 
 
